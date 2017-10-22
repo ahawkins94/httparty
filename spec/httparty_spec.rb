@@ -3,7 +3,7 @@ require 'httparty'
 describe 'JSON example tests' do
 
   before(:all) do
-    @api = JSON.parse(HTTParty.get('https://api.postcodes.io/postcodes/IM14LE').body)
+    @api = JSON.parse(HTTParty.get('https://api.postcodes.io/postcodes/GY68XY').body)
   end
 
   it 'quality should be a number that ranges from 1-9' do
@@ -22,9 +22,9 @@ describe 'JSON example tests' do
     expect(@api['result']['latitude']).to be_a(Float)
   end
 
-  it 'eastings should be an integer unless the region is "Channel Islands" or "Isle of Man"' do
-    region = (@api['result']['region'])
-    if region == "Channel Islands" || "Isle of Man"
+  it 'eastings should be an integer unless the country is "Channel Islands" or "Isle of Man"' do
+    if (@api['result']['country']) == "Channel Islands" || "Isle of Man"
+      p "works"
       expect(@api['result']['eastings']).to be(nil)
     else
       expect(@api['result']['eastings']).to be_a(Integer)
@@ -32,8 +32,7 @@ describe 'JSON example tests' do
   end
 
   it 'northings should be an integer unless the region is "Channel Islands" or "Isle of Man"' do
-    region = (@api['result']['region'])
-    if region == "Channel Islands" || "Isle of Man"
+    if (@api['result']['country']) == "Channel Islands" || "Isle of Man"
       expect(@api['result']['northings']).to be(nil)
     else
       expect(@api['result']['northings']).to be_a(Integer)
