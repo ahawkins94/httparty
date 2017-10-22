@@ -14,4 +14,8 @@ describe 'JSON example tests' do
     expect(@api['result']['postcode']).to include(' ')
   end
 
+  it 'has longitude saved as a float' do
+    expect(@api['result']['longitude']).to be_a(Float)
+  end
+
 end
