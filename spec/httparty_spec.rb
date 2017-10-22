@@ -3,11 +3,11 @@ require 'httparty'
 describe 'JSON example tests' do
 
   before(:all) do
-    @api = JSON.parse(HTTParty.get('https://api.postcodes.io/postcodes/sw178sf').body)
+    @api = JSON.parse(HTTParty.get('https://api.postcodes.io/postcodes/IM14LE').body)
   end
 
-  it 'quality should be a number that ranges from 1-8' do
-    expect(@api['result']['quality']).to be_between(1,8)
+  it 'quality should be a number that ranges from 1-9' do
+    expect(@api['result']['quality']).to be_between(1,9)
   end
 
   it 'should include a space in the postcode' do
@@ -20,6 +20,15 @@ describe 'JSON example tests' do
 
   it 'has latitude saved as a float' do
     expect(@api['result']['latitude']).to be_a(Float)
+  end
+
+  it 'eastings should be an integer unless the region is "Channel Islands" or "Isle of Man"' do
+    region = (@api['result']['region'])
+    if region == "Channel Islands" || "Isle of Man"
+      expect(@api['result']['eastings']).to be(nil)
+    else
+      expect(@api['result']['eastings']).to be_a(Integer)
+    end
   end
 
 end
